@@ -279,6 +279,7 @@ try:
     exportSolutionTable()
     endTime = time.perf_counter()
     print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 
     startTime = time.perf_counter()
     tripleStrCracker()
@@ -289,3 +290,4 @@ try:
 except KeyboardInterrupt:
     print("\nHALT PASSWORD CRACKER")
     exportSolutionTable()
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
