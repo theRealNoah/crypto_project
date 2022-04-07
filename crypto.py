@@ -47,6 +47,17 @@ def fileLoader():
         entry.append(plaintext)
         solutionTable.append(entry)
 
+
+# Return the number of remaining passwords
+def getRemainingPasswords():
+    pwdsRemaining = 0
+    for index, pwd in enumerate(solutionTable):
+        if pwd[2] == "":
+            pwdsRemaining += 1
+    # print("Passwords remaining: " + str(pwdsRemaining))
+    return pwdsRemaining
+
+
 # Attempt single string as password.
 def singleStrCracker():
     print("Begin singleStrCracker function.")
@@ -66,6 +77,7 @@ def singleStrCracker():
                 solutionTable[index][2] = word
     print("Finished singleStrCracker function.")
 
+
 # Attempt two strings as password.
 def doubleStrCracker():
     print("Beginning doubleStrCracker function.")
@@ -77,17 +89,16 @@ def doubleStrCracker():
             attemptedHashPwd = shaAttempt.hexdigest()
             for index, pwd in enumerate(solutionTable):
                 if attemptedHashPwd == pwd[1]:
-                    if solutionTable[index][2] != "":
-                        print(
-                            "Password hash matched for User ID:"
-                            + str(index + 1)
-                            + " using "
-                            + firstWord
-                            + " "
-                            + secondWord
-                        )
-                        # Put password into table.
-                        solutionTable[index][2] = combo
+                    print(
+                        "Password hash matched for User ID:"
+                        + str(index + 1)
+                        + " using "
+                        + firstWord
+                        + " "
+                        + secondWord
+                    )
+                    # Put password into table.
+                    solutionTable[index][2] = combo
     print("Finished doubleStrCracker function.")
 
 
@@ -116,6 +127,7 @@ def strNumCracker():
                         solutionTable[index][2] = combo
     print("Finished strNumCracker function.")
 
+
 # Attempt numeric combinations as password.
 def numCracker():
     print("Begin numCracker function.")
@@ -138,6 +150,7 @@ def numCracker():
                     solutionTable[index][2] = testValue
     print("Finished numCracker function.")
 
+
 # Attempt two strings plus numbers at the end as password.
 def doubleStrNumCracker():
     print("Beginning doubleStrNumCracker function.")
@@ -146,7 +159,7 @@ def doubleStrNumCracker():
         # Read the second word from the dictionary.
         for secondWord in dictionary:
             # Attempt 0 -> 99999.
-            for numDigits in range(5):
+            for numDigits in range(3):
                 countLength = "%0" + str(numDigits + 1) + "d"
                 for i in range(pow(10, numDigits + 1)):
                     testValue = countLength % i
@@ -155,19 +168,18 @@ def doubleStrNumCracker():
                     attemptedHashPwd = shaAttempt.hexdigest()
                     for index, pwd in enumerate(solutionTable):
                         if attemptedHashPwd == pwd[1]:
-                            if solutionTable[index][2] != "":
-                                print(
-                                    "Password hash matched for User ID:"
-                                    + str(index + 1)
-                                    + " using "
-                                    + firstWord
-                                    + " "
-                                    + secondWord
-                                    + " "
-                                    + testValue
-                                )
-                                # Put password into table.
-                                solutionTable[index][2] = combo
+                            print(
+                                "Password hash matched for User ID:"
+                                + str(index + 1)
+                                + " using "
+                                + firstWord
+                                + " "
+                                + secondWord
+                                + " "
+                                + testValue
+                            )
+                            # Put password into table.
+                            solutionTable[index][2] = combo
     print("Finished doubleStrNumCracker function.")
 
 
@@ -180,24 +192,26 @@ def tripleStrCracker():
         for secondWord in dictionary:
             # Read the third word from the dictionary.
             for thirdWord in dictionary:
+                if getRemainingPasswords() == 0:
+                    print("Finished doubleStrCracker function.")
+                    return
                 combo = firstWord + secondWord + thirdWord
                 shaAttempt = sha1(combo.encode("ascii"))
                 attemptedHashPwd = shaAttempt.hexdigest()
                 for index, pwd in enumerate(solutionTable):
                     if attemptedHashPwd == pwd[1]:
-                        if solutionTable[index][2] != "":
-                            print(
-                                "Password hash matched for User ID:"
-                                + str(index + 1)
-                                + " using "
-                                + firstWord
-                                + " "
-                                + secondWord
-                                + " "
-                                + thirdWord
-                            )
-                            # Put password into table.
-                            solutionTable[index][2] = combo
+                        print(
+                            "Password hash matched for User ID:"
+                            + str(index + 1)
+                            + " using "
+                            + firstWord
+                            + " "
+                            + secondWord
+                            + " "
+                            + thirdWord
+                        )
+                        # Put password into table.
+                        solutionTable[index][2] = combo
     print("Finished tripleStrCracker function.")
 
 
@@ -207,6 +221,7 @@ def exportSolutionTable():
     for item in solutionTable:
         f.write(" ".join(item) + "\n")
     f.close
+
 
 # Process Flow
 # Ask user who they are (file paths)
@@ -227,41 +242,47 @@ def exportSolutionTable():
 
 fileLoader()
 try:
+
     startTime = time.perf_counter()
     singleStrCracker()
     exportSolutionTable()
     endTime = time.perf_counter()
     print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 
     startTime = time.perf_counter()
     doubleStrCracker()
     exportSolutionTable()
     endTime = time.perf_counter()
     print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 
-    # startTime = time.perf_counter()
-    # strNumCracker()
-    # exportSolutionTable()
-    # endTime = time.perf_counter()
-    # print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    startTime = time.perf_counter()
+    strNumCracker()
+    exportSolutionTable()
+    endTime = time.perf_counter()
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 
     startTime = time.perf_counter()
     numCracker()
     exportSolutionTable()
     endTime = time.perf_counter()
     print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 
-    # startTime = time.perf_counter()
-    # doubleStrNumCracker()
-    # exportSolutionTable()
-    # endTime = time.perf_counter()
-    # print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    startTime = time.perf_counter()
+    doubleStrNumCracker()
+    exportSolutionTable()
+    endTime = time.perf_counter()
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
-    # startTime = time.perf_counter()
-    # tripleStrCracker()
-    # exportSolutionTable()
-    # endTime = time.perf_counter()
-    # print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    startTime = time.perf_counter()
+    tripleStrCracker()
+    exportSolutionTable()
+    endTime = time.perf_counter()
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
+    print("Passwords Remaining: " + str(getRemainingPasswords()))
 except KeyboardInterrupt:
     print("\nHALT PASSWORD CRACKER")
     exportSolutionTable()
