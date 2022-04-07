@@ -69,6 +69,7 @@ def numCracker():
                     # Put password into table.
                     solutionTable[index][2] = testValue
     print("Finished numCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 # Attempt single string as password.
@@ -89,6 +90,7 @@ def singleStrCracker():
                 # Put password into table.
                 solutionTable[index][2] = word
     print("Finished singleStrCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 # Attempt single string plus numbers as password.
@@ -115,6 +117,7 @@ def strNumCracker():
                         # Put password into table.
                         solutionTable[index][2] = combo
     print("Finished strNumCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 # Attempt two strings as password.
@@ -140,6 +143,7 @@ def doubleStrCracker():
                         # Put password into table.
                         solutionTable[index][2] = combo
     print("Finished doubleStrCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 # Attempt two strings plus numbers at the end as password.
@@ -173,6 +177,7 @@ def doubleStrNumCracker():
                                 # Put password into table.
                                 solutionTable[index][2] = combo
     print("Finished doubleStrNumCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 # Attempt three strings as password.
@@ -203,6 +208,7 @@ def tripleStrCracker():
                             # Put password into table.
                             solutionTable[index][2] = combo
     print("Finished tripleStrCracker function.")
+    print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
 
 
 def exportSolutionTable(user):
@@ -236,14 +242,21 @@ def exportSolutionTable(user):
 # Shape of Solution Table
 # UserID Hashed-Password PlainText-Password
 
-startTime = time.perf_counter()
 fileLoader()
-numCracker()  # Possibilities = 10^num
+startTime = time.perf_counter()
+# numCracker()  # Possibilities = 10^num
+endTime = time.perf_counter()
+startTime = time.perf_counter()
 singleStrCracker()  # Possibilities = 5579
-strNumCracker()  # Possibilities = 5579*10^num
-doubleStrCracker()  # Possibilities = 5579^2 -- 6
-doubleStrNumCracker()  # Possibilities = 5579^2*10^num
-tripleStrCracker()  # Possibilities = 5579^3
+endTime = time.perf_counter()
+startTime = time.perf_counter()
+# strNumCracker()  # Possibilities = 5579*10^num
+endTime = time.perf_counter()
+# doubleStrCracker()  # Possibilities = 5579^2 -- 6
+endTime = time.perf_counter()
+# doubleStrNumCracker()  # Possibilities = 5579^2*10^num
+endTime = time.perf_counter()
+# tripleStrCracker()  # Possibilities = 5579^3
+endTime = time.perf_counter()
 exportSolutionTable(userSelection)
 endTime = time.perf_counter()
-print("Password Cracker took: " + str(endTime - startTime) + " seconds!")
