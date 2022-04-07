@@ -24,6 +24,9 @@ def fileLoader():
     if userSelection == "3":
         passwordFile = "C:\\Users\\heinz\\Desktop\\USF\\Cryptography & Data Security\\Project\\Project files\\passwords.txt"
         dictionaryFile = "C:\\Users\\heinz\\Desktop\\USF\\Cryptography & Data Security\\Project\\Project files\\dictionary.txt"
+    if userSelection == "4":
+        passwordFile = "passwords.txt"
+        dictionaryFile = "dictionary.txt"
 
     with open(passwordFile) as f:
         passwordList = f.readlines()
